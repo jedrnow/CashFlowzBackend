@@ -6,6 +6,7 @@ using CashFlowzBackend.Data.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using CashFlowzBackend.Data.Models.Input;
 using CashFlowzBackend.API.Commands;
+using CashFlowzBackend.Infrastructure.Exceptions;
 
 namespace CashFlowzBackend.API.Controllers
 {
@@ -89,7 +90,7 @@ namespace CashFlowzBackend.API.Controllers
         {
             if(!await _checkUserService.CheckUserExist(userId))
             {
-                throw new KeyNotFoundException();
+                throw new UserNotFoundException(userId);
             }
         }
     }

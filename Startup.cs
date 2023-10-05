@@ -10,6 +10,7 @@ using CashFlowzBackend.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using CashFlowzBackend.Infrastructure.Filters;
 
 namespace CashFlowzBackend
 {
@@ -38,6 +39,11 @@ namespace CashFlowzBackend
             services.AddScoped<ICheckBudgetService, CheckBudgetService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICheckCategoryService, CheckCategoryService>();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<CustomExceptionFilterAttribute>();
+            });
 
 
             services.AddAuthentication(x =>

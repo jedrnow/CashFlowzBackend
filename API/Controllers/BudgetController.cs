@@ -6,6 +6,7 @@ using CashFlowzBackend.Data.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using CashFlowzBackend.Data.Models.Input;
 using CashFlowzBackend.API.Commands;
+using CashFlowzBackend.Infrastructure.Exceptions;
 
 namespace CashFlowzBackend.API.Controllers
 {
@@ -93,7 +94,7 @@ namespace CashFlowzBackend.API.Controllers
         {
             if (!await _checkBudgetService.CheckBudgetExist(userId, budgetId))
             {
-                throw new KeyNotFoundException();
+                throw new BudgetNotFoundException(budgetId);
             }
         }
     }
