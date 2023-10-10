@@ -7,8 +7,6 @@ namespace CashFlowzBackend.Infrastructure.Repositories
     {
         Task AddBudget(Budget budget);
 
-        Task DeleteBudget(int budgetId);
-
         Task<bool> CheckUserBudgetExistsById(int userId, int budgetId);
 
         Task<List<BudgetViewModel>> GetUsersBudgetsList(int userId);

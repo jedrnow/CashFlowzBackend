@@ -19,15 +19,6 @@ namespace CashFlowzBackend.Infrastructure.Repositories
             await _context.Categories.AddAsync(category);
         }
 
-        public async Task DeleteCategory(int categoryId)
-        {
-            Category? categoryToDelete = await _context.Categories
-                .Where(x => !x.Deleted)
-                .SingleOrDefaultAsync(x => x.Id == categoryId);
-
-            categoryToDelete!.Delete();
-        }
-
         public async Task<bool> CheckCategoryExistsById(int categoryId)
         {
             return (await _context.Categories.SingleOrDefaultAsync(x => x.Id == categoryId && !x.Deleted)) != null;

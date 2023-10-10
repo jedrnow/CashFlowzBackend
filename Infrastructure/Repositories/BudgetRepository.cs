@@ -19,15 +19,6 @@ namespace CashFlowzBackend.Infrastructure.Repositories
             await _context.Budgets.AddAsync(Budget);
         }
 
-        public async Task DeleteBudget(int budgetId)
-        {
-            Budget? budgetToDelete = await _context.Budgets
-                .Where(x => !x.Deleted)
-                .SingleOrDefaultAsync(x => x.Id == budgetId);
-
-            budgetToDelete!.Delete();
-        }
-
         public async Task<bool> CheckUserBudgetExistsById(int userId,int budgetId)
         {
             return (await _context.Budgets
@@ -79,6 +70,11 @@ namespace CashFlowzBackend.Infrastructure.Repositories
         {
             return await _context.Budgets
                 .Where(x => !x.Deleted)
+                .Include(x => x.User)
+                .Include(x=>x.Transactions)
+                    .ThenInclude(t=>t.Incomes)
+                .Include(x=>x.Transactions)
+                    .ThenInclude(t=>t.Expenses)
                 .SingleOrDefaultAsync(x => x.Id == budgetId);
         }
 

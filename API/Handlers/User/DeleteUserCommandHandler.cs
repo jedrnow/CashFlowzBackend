@@ -1,4 +1,5 @@
 ﻿using CashFlowzBackend.API.Commands;
+using CashFlowzBackend.Data.Models;
 using CashFlowzBackend.Infrastructure.Repositories;
 using MediatR;
 
@@ -15,7 +16,9 @@ namespace CashFlowzBackend.API.Handlers
 
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            await _userRepository.DeleteUser(request.UserId);
+            User userToDelete = await _userRepository.GetUserByIdToEdit(request.UserId);
+
+            userToDelete.Delete();
 
             return (await _userRepository.SaveChangesAsync());
         }

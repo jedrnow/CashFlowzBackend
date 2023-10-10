@@ -12,5 +12,10 @@
         {
             Name = name;
         }
+
+        public void Delete()
+        {
+            base.Delete();
+        }
     }
 }

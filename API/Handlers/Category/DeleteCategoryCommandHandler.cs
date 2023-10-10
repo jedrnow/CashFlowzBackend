@@ -1,4 +1,5 @@
 ﻿using CashFlowzBackend.API.Commands;
+using CashFlowzBackend.Data.Models;
 using CashFlowzBackend.Infrastructure.Repositories;
 using CashFlowzBackend.Infrastructure.Services;
 using MediatR;
@@ -20,7 +21,9 @@ namespace CashFlowzBackend.API.Handlers
         {
             await ValidateCategory(request.CategoryId);
 
-            await _categoryRepository.DeleteCategory(request.CategoryId);
+            Category categoryToDelete = await _categoryRepository.GetCategoryByIdToEdit(request.CategoryId);
+
+            categoryToDelete.Delete();
 
             return (await _categoryRepository.SaveChangesAsync());
         }

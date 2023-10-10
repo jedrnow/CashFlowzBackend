@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CashFlowzBackend.Infrastructure.Filters;
+using Microsoft.AspNetCore.Cors;
 
 namespace CashFlowzBackend
 {
@@ -39,10 +40,24 @@ namespace CashFlowzBackend
             services.AddScoped<ICheckBudgetService, CheckBudgetService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICheckCategoryService, CheckCategoryService>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ICheckTransactionService, CheckTransactionService>();
 
             services.AddMvc(options =>
             {
+                // Add your custom exception filter
                 options.Filters.Add<CustomExceptionFilterAttribute>();
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost3000",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
             });
 
 
@@ -88,6 +103,8 @@ namespace CashFlowzBackend
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseCors("AllowLocalhost3000");
 
             app.Use(async (context, next) =>
             {

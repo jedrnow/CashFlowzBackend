@@ -34,11 +34,6 @@
                 budget.Delete();
             }
 
-            foreach(Transaction transaction in Transactions.Where(x => !x.Deleted))
-            {
-                transaction.Delete();
-            }
-
             base.Delete();
         }
     }

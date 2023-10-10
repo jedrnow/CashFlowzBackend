@@ -7,8 +7,6 @@ namespace CashFlowzBackend.Infrastructure.Repositories
     {
         Task AddCategory(Category category);
 
-        Task DeleteCategory(int categoryId);
-
         Task<bool> CheckCategoryExistsById(int categoryId);
 
         Task<List<CategoryViewModel>> GetCategoryList();

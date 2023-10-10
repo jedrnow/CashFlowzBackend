@@ -15,5 +15,24 @@ namespace CashFlowzBackend.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+                .HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Transaction>()
+                .HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Budget>()
+                .HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Category>()
+                .HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Income>()
+                .HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Expense>()
+                .HasQueryFilter(x => !x.Deleted);
+        }
+
     }
 }

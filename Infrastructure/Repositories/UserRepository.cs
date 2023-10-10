@@ -18,16 +18,6 @@ namespace CashFlowzBackend.Infrastructure.Repositories
         {
             await _context.Users.AddAsync(user);
         }
-
-        public async Task DeleteUser(int userId)
-        {
-            User? userToDelete = await _context.Users
-                .Where(x => !x.Deleted)
-                .SingleOrDefaultAsync(x => x.Id == userId);
-
-            userToDelete!.Delete();
-        }
-
         public async Task<bool> CheckUserExistsById(int userId)
         {
             return (await _context.Users.SingleOrDefaultAsync(x=>x.Id == userId && !x.Deleted)) != null;
@@ -75,6 +65,12 @@ namespace CashFlowzBackend.Infrastructure.Repositories
         {
             return await _context.Users
                 .Where(x => !x.Deleted)
+                .Include(x=>x.Budgets)
+                    .ThenInclude(x=>x.Transactions)
+                        .ThenInclude(x=>x.Incomes)
+                .Include(x => x.Budgets)
+                    .ThenInclude(x => x.Transactions)
+                        .ThenInclude(x => x.Expenses)
                 .SingleOrDefaultAsync(x => x.Id == userId);
         }
 

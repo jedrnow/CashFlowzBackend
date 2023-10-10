@@ -1,4 +1,5 @@
 ﻿using CashFlowzBackend.API.Commands;
+using CashFlowzBackend.Data.Models;
 using CashFlowzBackend.Infrastructure.Repositories;
 using MediatR;
 
@@ -15,7 +16,9 @@ namespace CashFlowzBackend.API.Handlers
 
         public async Task<bool> Handle(DeleteBudgetCommand request, CancellationToken cancellationToken)
         {
-            await _budgetRepository.DeleteBudget(request.BudgetId);
+            Budget budgetToDelete = await _budgetRepository.GetBudgetByIdToEdit(request.BudgetId);
+
+            budgetToDelete.Delete();
 
             return (await _budgetRepository.SaveChangesAsync());
         }

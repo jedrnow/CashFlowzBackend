@@ -17,11 +17,13 @@ namespace CashFlowzBackend.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ICheckBudgetService _checkBudgetService;
+        private readonly ICheckUserService _checkUserService;
          
-        public BudgetController(IMediator mediator, ICheckBudgetService checkBudgetService)
+        public BudgetController(IMediator mediator, ICheckBudgetService checkBudgetService, ICheckUserService checkUserService)
         {
             _mediator = mediator;
             _checkBudgetService = checkBudgetService;
+            _checkUserService = checkUserService;
         }
 
         [HttpPost]
@@ -41,6 +43,8 @@ namespace CashFlowzBackend.API.Controllers
         public async Task<ActionResult<List<BudgetDto>>> GetBudgetsList(
             [FromRoute] int userId)
         {
+            await ValidateUserExists(userId);
+
             GetUsersBudgetsListQuery request = new(userId);
 
             List<BudgetDto> result = await _mediator.Send(request);
@@ -90,8 +94,22 @@ namespace CashFlowzBackend.API.Controllers
 
             return Ok(result);
         }
+
+        private async Task ValidateUserExists(int userId)
+        {
+            if (!await _checkUserService.CheckUserExist(userId))
+            {
+                throw new UserNotFoundException(userId);
+            }
+        }
+
         private async Task ValidateBudgetExists(int userId, int budgetId)
         {
+            if(!await _checkUserService.CheckUserExist(userId))
+            {
+                throw new UserNotFoundException(userId);
+            }
+
             if (!await _checkBudgetService.CheckBudgetExist(userId, budgetId))
             {
                 throw new BudgetNotFoundException(budgetId);

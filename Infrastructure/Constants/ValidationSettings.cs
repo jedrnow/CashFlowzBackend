@@ -10,5 +10,7 @@
         public static readonly int MaxEmailLength = 128;
         public static readonly int MinNameLength = 3;
         public static readonly int MaxNameLength = 128;
+        public static readonly int MinDescriptionLength = 3;
+        public static readonly int MaxDescriptionLength = 256;
     }
 }

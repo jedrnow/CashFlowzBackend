@@ -34,6 +34,16 @@
             CategoryId = categoryId;
         }
 
+        public void UpdateAmountOnAddTransaction(decimal value)
+        {
+            Amount += value;
+        }
+
+        public void UpdateAmountOnDeleteTransaction(decimal value)
+        {
+            Amount -= value;
+        }
+
         public void Delete()
         {
             foreach(Transaction transaction in Transactions)

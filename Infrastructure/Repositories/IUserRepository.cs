@@ -7,8 +7,6 @@ namespace CashFlowzBackend.Infrastructure.Repositories
     {
         Task AddUser(User user);
 
-        Task DeleteUser(int userId);
-
         Task<bool> CheckUserExistsById(int userId);
 
         Task<List<UserViewModel>> GetUsersList();

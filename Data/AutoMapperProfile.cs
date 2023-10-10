@@ -12,6 +12,9 @@ namespace CashFlowzBackend.Data
             CreateMap<LoginResultViewModel, LoginResultDto>();
             CreateMap<BudgetViewModel, BudgetDto>();
             CreateMap<CategoryViewModel, CategoryDto>();
+            CreateMap<IncomeViewModel, IncomeDto>();
+            CreateMap<ExpenseViewModel, ExpenseDto>();
+            CreateMap<TransactionViewModel, TransactionDto>();
         }
     }
 
